@@ -13,7 +13,7 @@ jobs:
       - name: install bazelisk
         uses: bazelbuild/setup-bazelisk@v2
       - name: install llvm
-        run: brew install llvm
+        run: brew install llvm --HEAD --with-python
       - name: build lol
         run: bazel build //explorer
       - name: upload built file
