@@ -1,0 +1,23 @@
+name: build carbon
+on: [workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3 
+      - name: get python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: install bazelisk
+        uses: bazelbuild/setup-bazelisk@v2
+      - name: install llvm
+        run: brew install llvm
+      - name: build lol
+        run: bazel build //explorer
+      - name: upload built file
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: explorer
+          path: bazel-bin/explorer/explorer
