@@ -4,6 +4,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Update package lists
+        run: sudo apt update
       - name: Checkout
         uses: actions/checkout@v3 
       - name: get python
@@ -12,8 +14,10 @@ jobs:
           python-version: '3.9'
       - name: install bazelisk
         uses: bazelbuild/setup-bazelisk@v2
-      - name: install llvm
-        run: brew install llvm --HEAD --with-python
+      - name: Install build dependencies for llvm
+        run: sudo apt install build-essential cmake git ninja-build libclang-dev libtool autoconf automake python3-dev
+      - name: Install latest stable LLVM
+        run: sudo apt install clang lld
       - name: build lol
         run: bazel build //explorer
       - name: upload built file
